@@ -4,16 +4,40 @@
   "description": "A lightweight in-memory, promised-backed cache",
   "main": "index.js",
   "scripts": {
+    "lint": "jshint . --exclude coverage,node_modules",
     "test": "NODE_ENV=test istanbul cover _mocha -- --recursive"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bluebird": "^3.5.0"
+    "bluebird": "^3.5.0",
+    "log": "github:darkskyapp/log#v1.0.0"
   },
   "devDependencies": {
     "chai": "^4.0.2",
     "istanbul": "^0.4.5",
+    "jshint": "^2.9.4",
     "mocha": "^3.4.2"
+  },
+  "jshintConfig": {
+    "curly": true,
+    "esnext": true,
+    "eqeqeq": true,
+    "forin": true,
+    "freeze": true,
+    "futurehostile": true,
+    "latedef": true,
+    "maxlen": 80,
+    "mocha": true,
+    "noarg": true,
+    "nocomma": true,
+    "node": true,
+    "nonbsp": true,
+    "nonew": true,
+    "sub": true,
+    "strict": true,
+    "undef": true,
+    "unused": "vars",
+    "varstmt": true
   }
 }

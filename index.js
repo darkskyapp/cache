@@ -1,9 +1,9 @@
 "use strict";
-const Bluebird = require("bluebird");
+const Bluebird = require("bluebird"),
+      log      = require("log");
 
 class Cache {
-  constructor(log) {
-    this._log     = log;
+  constructor() {
     this._promise = null;
   }
 
@@ -23,11 +23,7 @@ class Cache {
     return 0;
   }
 
-  static _log(log, event, hit, success, start) {
-    if (!log) {
-      return;
-    }
-
+  static _log(event, hit, success, start) {
     const duration_ms = Date.now() - start;
     log.debug(
       {
@@ -54,7 +50,6 @@ class Cache {
 
     /* Log the cache event. */
     Bluebird.join(
-      this._log,
       "Cache." + this.event,
       hit,
       this._promise.return(true).catchReturn(false),
