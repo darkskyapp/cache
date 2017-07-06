@@ -1,6 +1,6 @@
 {
   "name": "cache",
-  "version": "1.1.1",
+  "version": "2.0.0",
   "description": "A lightweight in-memory, promised-backed cache",
   "main": "index.js",
   "scripts": {
@@ -11,13 +11,13 @@
   "license": "ISC",
   "dependencies": {
     "bluebird": "^3.5.0",
-    "log": "github:darkskyapp/log#v1.1.0"
+    "log": "darkskyapp/log#v2.0.0"
   },
   "devDependencies": {
-    "chai": "^4.0.2",
-    "istanbul": "^0.4.5",
-    "jshint": "^2.9.4",
-    "mocha": "^3.4.2"
+    "chai": "*",
+    "istanbul": "*",
+    "jshint": "*",
+    "mocha": "*"
   },
   "jshintConfig": {
     "curly": true,
