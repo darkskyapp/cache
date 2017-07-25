@@ -1,14 +1,26 @@
 "use strict";
-const Bluebird = require("bluebird"),
-      log      = require("log");
+const Bluebird = require("bluebird");
+const log = require("log");
+
+function _log(event, hit, success, start) {
+  const duration_ms = Date.now() - start;
+
+  log.debug(
+    {
+      event: event,
+      hit: hit,
+      success: success,
+      duration_ms: duration_ms,
+    },
+    event + " " + (success? "succeeded": "failed") + " cache " +
+      (hit? "hit": "miss") + " in " + duration_ms + " ms"
+  );
+}
 
 class Cache {
   constructor() {
     this._promise = null;
-  }
-
-  _expire() {
-    return Bluebird.bind(this).delay(this.expiry).then(this.clear);
+    this._expires = 0;
   }
 
   clear() {
@@ -23,41 +35,35 @@ class Cache {
     return 0;
   }
 
-  static _log(event, hit, success, start) {
-    const duration_ms = Date.now() - start;
-    log.debug(
-      {
-        event: event,
-        hit: hit,
-        success: success,
-        duration_ms: duration_ms,
-      },
-      event + " " + (success? "succeeded": "failed") + " cache " +
-        (hit? "hit": "miss") + " in " + duration_ms + " ms"
-    );
-  }
-
   get() {
     const now = Date.now();
 
-    /* Get data from the backing function if not cached. */
-    let hit = true;
-    if(this._promise === null) {
-      hit = false;
-      this._promise = this.promise();
-      this._promise.bind(this).then(this._expire).catch(this.clear);
+    // If we're past the expiry, then nuke the cache.
+    if(now >= this._expires) {
+      this._promise = null;
     }
 
-    /* Log the cache event. */
+    // Get data from the backing function if not cached.
+    let hit = true;
+    if(this._promise === null) {
+      const promise = this.promise();
+      promise.bind(this).catch(this.clear);
+
+      this._promise = promise;
+      this._expires = now + this.expiry;
+      hit = false;
+    }
+
+    // Log the cache event.
     Bluebird.join(
       "Cache." + this.event,
       hit,
       this._promise.return(true).catchReturn(false),
       now,
-      Cache._log
+      _log
     );
 
-    /* Return the cache promise. */
+    // Return the cached promise.
     return this._promise;
   }
 }
