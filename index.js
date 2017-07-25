@@ -38,14 +38,9 @@ class Cache {
   get() {
     const now = Date.now();
 
-    // If we're past the expiry, then nuke the cache.
-    if(now >= this._expires) {
-      this._promise = null;
-    }
-
     // Get data from the backing function if not cached.
     let hit = true;
-    if(this._promise === null) {
+    if(this._promise === null || now >= this._expires) {
       const promise = this.promise();
       promise.bind(this).catch(this.clear);
 
