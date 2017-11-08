@@ -42,7 +42,7 @@ class Cache {
     let hit = true;
     if(this._promise === null || now >= this._expires) {
       const promise = this.promise();
-      promise.bind(this).catch(this.clear);
+      Bluebird.bind(this, promise).catch(this.clear);
 
       this._promise = promise;
       this._expires = now + this.expiry;
@@ -53,7 +53,7 @@ class Cache {
     Bluebird.join(
       "Cache." + this.event,
       hit,
-      this._promise.return(true).catchReturn(false),
+      Bluebird.resolve(this._promise).return(true).catchReturn(false),
       now,
       _log
     );
