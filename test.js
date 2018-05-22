@@ -1,7 +1,7 @@
 "use strict";
-const Bluebird = require("bluebird"),
-      Cache    = require("../index"),
-      expect   = require("chai").expect;
+const Bluebird = require("bluebird");
+const Cache = require("./index");
+const expect = require("chai").expect;
 
 class TestCache extends Cache {
   constructor() {
@@ -128,8 +128,7 @@ describe("cache", function() {
                 expect(err).to.be.an.instanceof(Error).
                   with.property("message", "sad");
               });
-          }
-        );
+          });
       });
   });
 });
