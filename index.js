@@ -1,6 +1,6 @@
 "use strict";
 const Bluebird = require("bluebird");
-const log = require("log");
+const log = require("@darkskyapp/log");
 
 function _log(event, hit, success, start) {
   const duration_ms = Date.now() - start;

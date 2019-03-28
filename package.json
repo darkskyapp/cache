@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "bluebird": "^3.5.0",
-    "log": "darkskyapp/log#v2.0.0"
+    "@darkskyapp/log": "darkskyapp/log#v6.1.0"
   },
   "devDependencies": {
     "@darkskyapp/eslint-config": "^1.1.1",
