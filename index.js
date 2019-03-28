@@ -1,20 +1,18 @@
 "use strict";
 const Bluebird = require("bluebird");
-const log = require("log");
+const log = require("@darkskyapp/log");
 
 function _log(event, hit, success, start) {
   const duration_ms = Date.now() - start;
 
-  log.debug(
-    {
+  log.debug({
       event: event,
       hit: hit,
       success: success,
       duration_ms: duration_ms,
-    },
-    event + " " + (success? "succeeded": "failed") + " cache " +
-      (hit? "hit": "miss") + " in " + duration_ms + " ms"
-  );
+      msg: event + " " + (success? "succeeded": "failed") + " cache " +
+        (hit? "hit": "miss") + " in " + duration_ms + " ms",
+  });
 }
 
 class Cache {
